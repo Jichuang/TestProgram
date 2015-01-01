@@ -1,6 +1,7 @@
+/*链表的简单实现*/
+
 #include <iostream>
 #include <string>
-#include <list>
 using namespace std;
 
 template<typename T>
@@ -18,6 +19,46 @@ public:
 		this->element=element;
 		next=NULL;
 	}
+};
+
+//迭代器
+template<typename T>
+class Iterator
+{
+public:
+	//创建一个迭代器
+	Iterator(Node<T> *p)
+	{
+		current=p;
+	};
+
+	//获取下一指针对应的迭代器
+	Iterator &operator++()
+	{
+		current=current->next;
+		return *this;
+	}
+
+	//返回迭代器指向结点的数据元素
+	T operator*()
+	{
+		return current->element;
+	}
+
+	//如果两迭代器相同，返回 true
+	bool operator==(const Iterator<T> &iterator)
+	{
+		return current==iterator.current;
+	}
+
+	//如果两迭代器不相同，返回 true
+	bool operator!=(const Iterator<T> &iterator)
+	{
+		return current!=iterator.current;
+	}
+
+private:
+	Node<T> *current;
 };
 
 template<typename T>
@@ -83,6 +124,17 @@ public:
 
 	//将指定位置元素设置为新值，并返回原值
 	T set(int index,T element);
+
+	//
+	Iterator<T> begin()
+	{
+		return Iterator<T>(head);
+	};
+
+	Iterator<T> end()
+	{
+		return Iterator<T>(tail->next);
+	};
 
 private:
 	Node<T> *head,*tail;
@@ -470,13 +522,25 @@ int main()
 			list.addLast(i);
 		}
 
-		list.removeAt(88);
+		list.removeAt(5);
 
 	//	list.clear();
 
 		cout<<"szie:"<<list.getSize()<<endl;
 
 		cout<<list.getFirst()<<endl;
+
+		//测试迭代器
+		LinkedList<string> list2;
+		list2.add("America");
+		list2.add("Canada");
+		list2.add("Russia");
+		list2.add("France");
+
+		for(Iterator<string> iterator=list2.begin();iterator!=list2.end() ;iterator++)
+		{
+			cout<<*iterator<<" ";
+		}
 	}
 	catch(exception &e)
 	{
