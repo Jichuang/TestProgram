@@ -1,3 +1,5 @@
+/*链表的简单实现*/
+
 #include <iostream>
 #include <string>
 using namespace std;
